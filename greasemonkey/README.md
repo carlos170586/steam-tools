@@ -3,8 +3,10 @@ All my greasemonkey scripts for Steam.
 
 
 [steam_market_info.user.js](https://github.com/carlos170586/steam-tools/greasemonkey/steam_market_info.user.js): Display info about your market history
-[steam_buyer.user.js](https://github.com/carlos170586/steam-tools/greasemonkey/steam_buyer.user.js): You can set buy orders in all items without buy order option.
-[steam_seller.user.js](https://github.com/carlos170586/steam-tools/greasemonkey/steam_seller.user.js): You can sell or convert into gems all the visible items with 2 clicks.
+
+[steam_buyer.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_buyer.user.js): You can set buy orders in all items without buy order option.
+
+[steam_seller.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_seller.user.js): You can sell or convert into gems all the visible items with 2 clicks.
 
 
 
