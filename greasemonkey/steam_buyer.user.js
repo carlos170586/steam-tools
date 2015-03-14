@@ -100,7 +100,7 @@ steamMarket Script
 
 			$J('#autobuy').submit(function(e){
 				e.preventDefault();
-				s=[GetPriceValueAsInt($J('#autobuy input:eq(0)').val()),GetPriceValueAsInt($J('#autobuy input:eq(1)').val())];
+				s=[GetPriceValueAsInt($J('#autobuy input:eq(0)').val()),$J('#autobuy input:eq(1)').val()?parseInt($J('#autobuy input:eq(1)').val()):0];
 				clearLog('<br>(<b><span id=autobuyCount>0</span></b>) Init... '+s[1]+' '+$J('#largeiteminfo_item_name').text()+' up to '+v_currencyformat(s[0],GetCurrencyCode(g_rgWalletInfo['wallet_currency'])));
 				setTimeout(calculateNextCall,0);
 				$J('#autobuy .btn_green_white_innerfade').hide();
