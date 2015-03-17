@@ -12,14 +12,14 @@ All my greasemonkey scripts for Steam.
 
 [steam_seller.user.js] How to sell multiple items:
 * Use the search or filter items by category.
-* Put a price and press "Sell visible items".
+* Set a price and press "Sell visible items".
 * Confirm the operation.
 
 
 [steam_buyer.user.js] How to buy cheap items:
-* put a price and a quantity of items.
+* Set a price and a quantity of items.
 * Press "autobuy!" button.
-* Wait sellers publish the item with your price.
+* Wait for sellers to publish the item with your price.
 
 
 All scripts require GreaseMonkey (or alternative):
