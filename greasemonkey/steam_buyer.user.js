@@ -15,10 +15,11 @@ steamMarket Script
 		clearLog=function(t){$J('#botLog').html(t)};
 
 	var s,
+		Delay=500,
+		cache=true,
 		autobuyCount=0,
 		lastIDmarket=new Array(10),//prevent try to buy same item
-		lastTry=0,
-		Delay=500;
+		lastTry=0;
 
 	$J('#market_buynow_dialog_accept_ssa').prop('checked',true);
 
@@ -36,7 +37,7 @@ steamMarket Script
 
 		$J.ajax({
 			type: 'GET',
-			//cache:false,
+			cache:cache,
 			url:window.location.href.split('?')[0]+'/render/?query=&start=0&count=10&country='+g_strCountryCode+'&language='+g_strLanguage+'&currency='+(typeof( g_rgWalletInfo ) != 'undefined' ? g_rgWalletInfo['wallet_currency'] : 1),
 		}).done(function(d,textStatus,request){
 			autobuyCount++;
@@ -94,7 +95,7 @@ steamMarket Script
 			$J('#largeiteminfo_content').append('<form id=autobuy>\
 				<input style="width:100%" type=text placeholder="Price">\
 				<input style="width:100%" type=text placeholder="Quantity">\
-				<input id=delay title="Delay in miliseconds (min 250/max 2500)" style="width:100%" type=range min=250 max=2500 step=50 value='+Delay+' placeholder="Delay (Miliseconds)">\
+				<input id=delay title="Delay in miliseconds (min 250/max 2500)" style="width:100%" type=range min=0 max=2500 step=50 value='+Delay+' placeholder="Delay (Miliseconds)">\
 				<input class="btn_green_white_innerfade btn_medium_wide" type=submit value="Autobuy!">\
 			</form><div id=botLog></div>');
 
