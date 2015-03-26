@@ -7,14 +7,6 @@
 // @grant          none
 // ==/UserScript==
 
-/*
-http://steamrep.com/profiles/76561198065598820
-https://steamdb.info/calculator/?player=76561198065598820
-http://steam.tools/itemvalue/#/76561198065598820-730
-http://steam.tools/cards/
-http://www.steamcardexchange.net/index.php?gamepage-appid-42160
-http://steamcommunity.com/market/search?category_753_Game[]=tag_app_550&category_753_cardborder[]=tag_cardborder_1&category_753_item_class[]=tag_item_class_2&appid=753
-*/
 
 (function(){//display the total value of all your items
 	var marketBot=[0,0,0];
@@ -75,10 +67,10 @@ http://steamcommunity.com/market/search?category_753_Game[]=tag_app_550&category
 		var pagesize=500,
 			marketTrans=[0,0,0,0,0,0],
 			page=0,
-			totalActions=0,
+			totalActions=-1,
 		
 			getNextPage=function(){
-			if(page*pagesize>totalActions)
+			if(totalActions>=0 && page*pagesize>totalActions)
 				return publishData();
 
 			$J.ajax( {
@@ -93,27 +85,30 @@ http://steamcommunity.com/market/search?category_753_Game[]=tag_app_550&category
 				xhrFields:{withCredentials:true}
 			}).done(function(d){
 				if(d && d.results_html){
-					totalActions=d.total_count;
-					page++;
-					proxessResults('<div>'+d.results_html+'</div>');
-					$J('#loadingTrans').html(page+'/'+parseInt(totalActions/500));
+					if(totalActions<0)
+						totalActions=d.total_count;
+					processResults('<div>'+d.results_html+'</div>');
 				}
 				getNextPage();
 			}).fail(function(r){
 				getNextPage();
 			});
 		},
-			proxessResults=function(d){
-			$J('.market_recent_listing_row',d).each(function(){
-				var w=$J.trim($J('.market_listing_gainorloss',this).text());
-				if(w!=''){
-					var s=w=='+'?0:1,
-						p=GetPriceValueAsInt($J('.market_listing_price',this).text());
-					marketTrans[s]++;
-					marketTrans[2+s]+=p;
-					marketTrans[4+s]=Math.max(marketTrans[4+s],p);
-				}
-			});
+			processResults=function(d){
+			if($J('.market_recent_listing_row',d).length){
+				page++;
+				$J('#loadingTrans').html(page+'/'+parseInt(totalActions/500));
+				$J('.market_recent_listing_row',d).each(function(){
+					var w=$J.trim($J('.market_listing_gainorloss',this).text());
+					if(w!=''){
+						var s=w=='+'?0:1,
+							p=GetPriceValueAsInt($J('.market_listing_price',this).text());
+						marketTrans[s]++;
+						marketTrans[2+s]+=p;
+						marketTrans[4+s]=Math.max(marketTrans[4+s],p);
+					}
+				});
+			}
 		},
 			publishData=function(){
 			$J('#MarketTrans2').html('\
