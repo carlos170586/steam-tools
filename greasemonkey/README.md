@@ -8,6 +8,10 @@ All my greasemonkey scripts for Steam.
 
 [steam_seller.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_seller.user.js): You can sell or convert into gems all the visible items with 2 clicks.
 
+[steam_rep.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_rep.user.js): Right click show SteamRep profile.
+
+[steam_links.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_links.user.js): Display useful links in the header menu and steam user profiles.
+
 
 
 [steam_seller.user.js] How to sell multiple items:
