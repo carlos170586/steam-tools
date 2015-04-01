@@ -2,6 +2,14 @@
 All my greasemonkey scripts for Steam.
 
 
+All scripts require GreaseMonkey (or alternative):
+- [GreaseMonkey (Firefox)](https://addons.mozilla.org/es/firefox/addon/greasemonkey/) 
+- [TamperMonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) 
+- [ViolentMonkey (Opera)](https://addons.opera.com/es/extensions/details/violent-monkey/) 
+
+
+You got GreaseMonkey? click in the links to download:
+
 [steam_market_info.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_market_info.user.js): Display info about your market history
 
 [steam_buyer.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_buyer.user.js): You can set buy orders in all items without buy order option.
@@ -17,11 +25,8 @@ All my greasemonkey scripts for Steam.
 [steam_store.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_store.user.js): skip agecheck, display DRM alerts...
 
 
-
-All scripts require GreaseMonkey (or alternative):
-- [GreaseMonkey (Firefox)](https://addons.mozilla.org/es/firefox/addon/greasemonkey/) 
-- [TamperMonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) 
-- [ViolentMonkey (Opera)](https://addons.opera.com/es/extensions/details/violent-monkey/) 
+Others scripts:
+[steam_link_filter.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_link_filter.user.js): remove link filters
 
 
 
