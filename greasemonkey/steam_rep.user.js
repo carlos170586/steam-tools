@@ -58,8 +58,12 @@ var steamRep=(function(){
 			if(href.match(/http:\/\/steamcommunity.com\/profiles\/.+/))
 				getRep(href.split('/')[4]);
 			else if(href.match(/http:\/\/steamcommunity.com\/id\/.+/))
-				$.get(href,{'xml':1},function(d){
-					getRep($('steamID64',d).text());
+				GM_xmlhttpRequest({
+					method:"GET",
+					url:href+'?xml=1',//{'xml':1}
+					onload:function(r){
+						getRep($('steamID64',r.responseText).text());
+					}
 				});
 			else return;
 			e.preventDefault();

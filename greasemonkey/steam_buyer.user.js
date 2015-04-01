@@ -3,7 +3,8 @@
 // @namespace      https://github.com/carlos170586/steam-tools/
 // @description    Quickly buy items on steam market
 // @include        http://steamcommunity.com/market/listings/*
-// @version        1
+// @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_buyer.user.js
+// @version        2
 // @grant          none
 // ==/UserScript==
 
@@ -91,7 +92,6 @@ steamMarket Script
 
 	$J(document).ready(function(){
 		if(!$J('.market_commodity_order_block').length){
-			//setInterval(function(){if(nextTry+2000<(new Date()).getTime())setTimeout(autoBuyCheck,Delay)},1000);
 			$J('#largeiteminfo_content').append('<form id=autobuy>\
 				<input style="width:100%" type=text placeholder="Price">\
 				<input style="width:100%" type=text placeholder="Quantity">\

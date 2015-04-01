@@ -3,7 +3,8 @@
 // @namespace      https://github.com/carlos170586/steam-tools
 // @description    Extra info about your market history
 // @include        http://steamcommunity.com/market/
-// @version        1
+// @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_market_info.user.js
+// @version        2
 // @grant          none
 // ==/UserScript==
 
