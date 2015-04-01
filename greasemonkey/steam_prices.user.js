@@ -65,30 +65,29 @@
 			//getMyPrices(app);
 		});
 	}
-	function getPrices(app,cc){
+	function getPrices(x,cc){
 		$.ajax({
 			method:"GET",
 			url:'http://store.steampowered.com/api/packagedetails/',
-			data:{'packageids':app,'filters':'price_overview','cc':cc}
+			data:{'packageids':x,'filters':'price_overview','cc':cc}
 		}).done(function(r){
-			for(var x in r){
+			if(r && r[x] && r[x].success)
 				prices[x][cc]=r[x].data.price;
-				CalculatePrices(x);
-			}
+			CalculatePrices(x);
 		}).fail(function(){
-			CalculatePrices(app);
-			//getPrices(app,cc);
+			CalculatePrices(x);
+			//getPrices(x,cc);
 		});
 	}
 
 
-	function getCCPrices(app){
+	function getCCPrices(id){
 		//CRates.length || getConversionRates();
-		prices[app]={};
-		completed[app]=0;
-		getMyPrices(app);
+		prices[id]={};
+		completed[id]=0;
+		getMyPrices(id);
 		for(var x in countries)
-			getPrices(app,countries[x]);
+			getPrices(id,countries[x]);
 	}
 
 	$('.game_purchase_action_bg').on('mouseenter',function(){
