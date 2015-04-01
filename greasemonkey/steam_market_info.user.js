@@ -2,7 +2,7 @@
 // @name           [Steam] Market Info
 // @namespace      https://github.com/carlos170586/steam-tools
 // @description    Extra info about your market history
-// @include        http://steamcommunity.com/market/
+// @include        /http[s]?:\/\/[www]?steamcommunity.com\/market\/$/
 // @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_market_info.user.js
 // @version        2
 // @grant          none

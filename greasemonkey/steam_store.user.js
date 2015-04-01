@@ -2,7 +2,7 @@
 // @name           [Steam] Store
 // @namespace      https://github.com/carlos170586/steam-tools/
 // @description    Useful tricks
-// @include        http://store.steampowered.com/*
+// @include        /http[s]?:\/\/[www]?steamcommunity.com\/.+/
 // @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_store.user.js
 // @version        1
 // @grant          none

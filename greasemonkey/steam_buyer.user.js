@@ -2,7 +2,7 @@
 // @name           [Steam] Buyer
 // @namespace      https://github.com/carlos170586/steam-tools/
 // @description    Quickly buy items on steam market
-// @include        http://steamcommunity.com/market/listings/*
+// @include        /http[s]?:\/\/[www]?steamcommunity.com\/market\/listings\/.+/
 // @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_buyer.user.js
 // @version        2
 // @grant          none

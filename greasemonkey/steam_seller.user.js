@@ -2,7 +2,7 @@
 // @name           [Steam] Seller
 // @namespace      https://github.com/carlos170586/steam-tools/
 // @description    Quickly sell items on steam market
-// @include        http://steamcommunity.com/id/*/inventory*
+// @include        /http[s]?:\/\/[www]?steamcommunity.com\/id/[^\/]+/inventory.+/
 // @include        http://steamcommunity.com/profiles/*/inventory*
 // @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_seller.user.js
 // @version        2

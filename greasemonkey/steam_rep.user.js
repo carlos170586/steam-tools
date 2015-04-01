@@ -2,8 +2,8 @@
 // @name           [Steam] Rep
 // @namespace      https://github.com/carlos170586/steam-tools/
 // @description    Right click for check the Steam user rep
-// @include        http://steamcommunity.com/*
-// @include        http://store.steampowered.com/*
+// @include        /http[s]?:\/\/[www]?steamcommunity.com\/.+/
+// @include        /http[s]?:\/\/[www]?store.steampowered.com\/.+/
 // @require        http://steamcommunity-a.akamaihd.net/public/javascript/jquery-1.11.1.min.js?v=.isFTSRckeNhC
 // @version        1
 // @grant          GM_xmlhttpRequest
