@@ -12,18 +12,10 @@ All my greasemonkey scripts for Steam.
 
 [steam_links.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_links.user.js): Display useful links in the header menu and steam user profiles.
 
+[steam_prices.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_prices.user.js): Display all prices from all regions
 
+[steam_store.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_store.user.js): skip agecheck, display DRM alerts...
 
-[steam_seller.user.js] How to sell multiple items:
-* Use the search or filter items by category.
-* Set a price and press "Sell visible items".
-* Confirm the operation.
-
-
-[steam_buyer.user.js] How to buy cheap items:
-* Set a price and a quantity of items.
-* Press "autobuy!" button.
-* Wait for sellers to publish the item with your price.
 
 
 All scripts require GreaseMonkey (or alternative):
