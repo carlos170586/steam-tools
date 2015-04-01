@@ -35,7 +35,7 @@
 			}
 			p.sort(function(a,b){return a[2]-b[2]});
 			for(var x in p){
-				html+='<div style="background-position:0 -'+countries.indexOf(p[x][0])*11+'px"><div>'+v_currencyformat(p[x][3],p[x][1])+'</div><div>'+v_currencyformat(p[x][2],myCurrency)+'</div><div style="color:'+(p[x][4]>1?'red':(p[x][4]<-1?'green':'yellow'))+'">'+p[x][4]+'%</div>'+'</div>';
+				html+='<div style="background-position:0 -'+countries.indexOf(p[x][0])*15+'px"><div>'+v_currencyformat(p[x][3],p[x][1])+'</div><div>'+v_currencyformat(p[x][2],myCurrency)+'</div><div style="color:'+(p[x][4]>1?'red':(p[x][4]<-1?'green':'yellow'))+'">'+p[x][4]+'%</div>'+'</div>';
 			}
 			$('#priceBox'+app).html(html);
 		}
