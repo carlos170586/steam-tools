@@ -4,7 +4,7 @@
 // @description    Quickly buy items on steam market
 // @include        /http[s]?:\/\/[www]?steamcommunity.com\/market\/listings\/.+/
 // @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_buyer.user.js
-// @version        2
+// @version        3
 // @grant          none
 // ==/UserScript==
 
@@ -39,7 +39,15 @@ steamMarket Script
 		$J.ajax({
 			type: 'GET',
 			cache:cache,
-			url:window.location.href.split('?')[0]+'/render/?query=&start=0&count=10&country='+g_strCountryCode+'&language='+g_strLanguage+'&currency='+(typeof( g_rgWalletInfo ) != 'undefined' ? g_rgWalletInfo['wallet_currency'] : 1),
+			url:location.pathname+'/render/',
+			data: {
+				query:"",
+				start:0,
+				count:10,
+				country:g_strCountryCode,
+				language:g_strLanguage,
+				currency: g_rgWalletInfo['wallet_currency'],
+			}
 		}).done(function(d,textStatus,request){
 			autobuyCount++;
 			$J('#autobuyCount').html(autobuyCount);
@@ -95,19 +103,20 @@ steamMarket Script
 			$J('#largeiteminfo_content').append('<form id=autobuy>\
 				<input style="width:100%" type=text placeholder="Price">\
 				<input style="width:100%" type=text placeholder="Quantity">\
-				<input id=delay title="Delay in miliseconds (min 250/max 2500)" style="width:100%" type=range min=0 max=2500 step=50 value='+Delay+' placeholder="Delay (Miliseconds)">\
+				<input id=delay title="Delay in miliseconds (min 0/max 2500)" style="width:100%" type=range min=0 max=2500 step=50 value='+Delay+' placeholder="Delay (Miliseconds)">\
 				<input class="btn_green_white_innerfade btn_medium_wide" type=submit value="Autobuy!">\
 			</form><div id=botLog></div>');
 
 			$J('#autobuy').submit(function(e){
 				e.preventDefault();
 				s=[GetPriceValueAsInt($J('#autobuy input:eq(0)').val()),$J('#autobuy input:eq(1)').val()?parseInt($J('#autobuy input:eq(1)').val()):0];
-				clearLog('<br>(<b><span id=autobuyCount>0</span></b>) Init... '+s[1]+' '+$J('#largeiteminfo_item_name').text()+' up to '+v_currencyformat(s[0],GetCurrencyCode(g_rgWalletInfo['wallet_currency'])));
+				clearLog('<br>(<b><span id=DDelay>0</span> - <span id=autobuyCount>0</span></b>) Init... '+s[1]+' '+$J('#largeiteminfo_item_name').text()+' up to '+v_currencyformat(s[0],GetCurrencyCode(g_rgWalletInfo['wallet_currency'])));
 				setTimeout(calculateNextCall,0);
 				$J('#autobuy .btn_green_white_innerfade').hide();
 			});
 			$J('#delay').change(function(e){
 				Delay=parseInt($J('#delay').val());
+				$J('#DDelay').html($J('#delay').val()).attr('title','every '+($J('#delay').val()/1000)+' seconds');
 			});
 		}
 	});
