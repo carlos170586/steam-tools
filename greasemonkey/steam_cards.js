@@ -29,7 +29,23 @@
 })();
 
 
-/*
+/*$J('.badge_craft_button').each(function(){
+			$J.ajax( {
+				url: 'http://steamcommunity.com/id/carlos-/ajaxcraftbadge/',
+				type: 'POST',
+          data: {
+					appid: $J(this).attr('href').split('/')[6],
+            border_color: $J(this).attr('href').split('/')[7]=='?border=1'?1:0,
+					series: 1,
+					sessionid: g_sessionID
+				},
+				crossDomain: true,
+				xhrFields:{withCredentials:true}
+			}).done(function(d){
+			}).fail(function(r){
+			});
+});
+
 http://steamcommunity.com/market/search?category_753_Game[]=tag_app_'+id+'&category_753_cardborder[]=tag_cardborder_'+(isFoil?1:0)		Market
 http://www.steamcardexchange.net/index.php?gamepage-appid-'+id																			Steam Card Exchange
 http://steamcommunity.com/id/carlos-/gamecards/'+id+'?border=0'+(isFoil?1:0)															Togle Foil
