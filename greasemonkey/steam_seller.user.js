@@ -235,7 +235,7 @@ Array.prototype.current = 0;
 		$J('.SteamSeller').click(function(){
 			var o=$J('input[name="sellType"]:checked').val();
 			if(o==0)
-				SellAll(GetPriceValueAsInt($J('#minimunPrice').val()),$J('#minimunVol').val());
+				SellAll(GetPriceValueAsInt($J('#minimunPrice').val()),parseInt($J('#minimunVol').val()));
 			else if(o==1)
 				SellVisibles(GetPriceValueAsInt($J('#priceVisible').val()))
 			else if(o==2)
