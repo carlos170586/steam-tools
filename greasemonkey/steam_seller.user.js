@@ -5,7 +5,7 @@
 // @include        /http[s]?:\/\/[www]?steamcommunity.com\/id/[^\/]+/inventory.+/
 // @include        http://steamcommunity.com/profiles/*/inventory*
 // @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_seller.user.js
-// @version        2
+// @version        3
 // @grant          none
 // ==/UserScript==
 
@@ -15,8 +15,8 @@ Array.prototype.next = function() {
 };
 Array.prototype.current = 0;
 (function(){
-	var Log=function(t){$J('#vendeLog').append('<br>'+t)},
-		clearLog=function(t){$J('#vendeLog').html(t)},
+	var Log=function(t){$J('#SteamSellerLog').append('<br>'+t)},
+		clearLog=function(t){$J('#SteamSellerLog').html(t)},
 
 		itemlist=[];
 
@@ -31,10 +31,83 @@ Array.prototype.current = 0;
 		return nAmount - feeInfo.fees;
 	}
 
-	function sell(item){
+
+
+
+
+
+	function SellAll(minPrice,minVol){
+		clearLog('Collecting Data...');
+		itemlist=[];
+		var ngi=[0,0];
+		var appid=$J('.games_list_tabs .active')[0].hash.replace(/^#/, ''),
+			rgC=g_rgAppContextData[appid].rgContexts;
+		for(var x in rgC){
+			var rgI=rgC[x].inventory.rgInventory;
+			for(var x2 in rgI){
+				if(rgI[x2].marketable){
+					ngi[0]++;
+					$J.ajax({
+						url:'http://steamcommunity.com/market/priceoverview/',
+						type:'GET',
+						item:rgI[x2],
+						data:{
+							country: g_rgWalletInfo.wallet_country,
+							currency: g_rgWalletInfo.wallet_currency,
+							appid:appid,
+							market_hash_name:rgI[x2].market_hash_name
+						},
+						crossDomain: true,
+						xhrFields: { withCredentials: true }
+					}).done(function(d){
+						if(!d.lowest_price || !d.median_price || !d.volume || d.volume<minVol)
+							return;
+						var lP=GetPriceValueAsInt(d.lowest_price),
+							mP=GetPriceValueAsInt(d.median_price),
+							sP=0;
+						
+						if(lP>mP){
+							sP=lP;
+						}else if(lP<mP){
+							sP=mP+parseInt((mP-lP)/2);
+						}else{
+							sP=d.volume<10?lP:lP+1;
+						}
+						if(sP<minPrice)
+							return;
+						this.item.price=sP;
+						itemlist[itemlist.length]=this.item;
+						Log('Sell '+this.item.market_name+' '+v_currencyformat(this.item.price, GetCurrencyCode( g_rgWalletInfo['wallet_currency']) )+' ('+v_currencyformat( getPriceFreeFees(this.item,this.item.price), GetCurrencyCode( g_rgWalletInfo['wallet_currency']) )+')? <b id=vendeitem'+this.item.id+'></b>');
+					}).always(function(){
+						ngi[1]++;
+						if(ngi[0]==ngi[1])
+							$J('.confirm').show();
+					});
+				}
+			}
+		}
+	}
+
+	function SellVisibles(price){
+		clearLog('Calculating prices...');
+		itemlist=[];
+		$J('.itemHolder .item:visible').each(function(){
+			var matches = this.id.split("_");
+			matches[0]=matches[0].replace("item","");
+			var wea=g_rgAppContextData[matches[0]].rgContexts[matches[1]].inventory.rgInventory[matches[2]];
+			if(wea.marketable){
+				Log('Sell '+wea.market_name+' '+v_currencyformat(price, GetCurrencyCode( g_rgWalletInfo['wallet_currency']) )+' ('+v_currencyformat( getPriceFreeFees(wea,price), GetCurrencyCode( g_rgWalletInfo['wallet_currency']) )+')? <b id=vendeitem'+matches[2]+'></b>');
+				wea.price=price;
+				itemlist.push(wea);
+			}
+		}).promise().done(function(){
+			$J('.confirm').show();
+		});
+	}
+
+	function sellItem(item){
 		if(!item)
 			return;
-		//alert(item + ' + precio + '  +getPriceFreeFees(item,precio))
 		$J.ajax({
 			url: 'https://steamcommunity.com/market/sellitem/',
 			type: 'POST',
@@ -44,43 +117,72 @@ Array.prototype.current = 0;
 				contextid: item.contextid,
 				assetid: item.id,
 				amount: 1,
-				price: getPriceFreeFees(item,precio)
+				price: getPriceFreeFees(item,item.price)
 			},
 			crossDomain: true,
 			xhrFields: {withCredentials: true}
 		}).done(function(d){
 			$J('#vendeitem'+item.id).text('OK');
 		}).fail(function(d){
-			$J('#vendeitem'+item.id).text('Problem.');
+			$J('#vendeitem'+item.id).text('Problem ('+item.market_name+').');
 		}).always(function(d){
-			sell(itemlist.next());
+			sellItem(itemlist.next());
 		});
 	}
 
-	function sellItems(precio){
-		clearLog('Calculating prices...');
+
+
+
+
+
+
+	function CalculateVisibleGems(){
+		clearLog('Calculating gem prices...');
 		itemlist=[];
+		var ngi=[0,0];
 		$J('.itemHolder .item:visible').each(function(){
 			var matches = this.id.split("_");
 			matches[0]=matches[0].replace("item","");
-			var wea=g_rgAppContextData[matches[0]].rgContexts[matches[1]].inventory.rgInventory[matches[2]];
-			if(wea.marketable){
-				Log('Sell '+wea.market_name+' '+v_currencyformat( precio, GetCurrencyCode( g_rgWalletInfo['wallet_currency']) )+' ('+v_currencyformat( getPriceFreeFees(wea,precio), GetCurrencyCode( g_rgWalletInfo['wallet_currency']) )+')? <b id=vendeitem'+matches[2]+'></b>');
-				itemlist.push(wea);
+			if(matches[1]==6){
+				var lid=itemlist.length;
+				itemlist[lid]=g_rgAppContextData[matches[0]].rgContexts[matches[1]].inventory.rgInventory[matches[2]];
+				Log('Convert '+itemlist[lid].market_name+' will result in <span id=vendeitem'+matches[2]+'>...</span>');
+				ngi[0]++;
+
+				$J.ajax({
+					url:$J('#global_actions .user_avatar a').attr('href')+'/ajaxgetgoovalue/',
+					type:'GET',
+					lid:lid,
+					data:{
+						sessionid: g_sessionID,
+						appid: itemlist[lid].appid,
+						contextid: itemlist[lid].contextid,
+						assetid: itemlist[lid].id
+					},
+					crossDomain: true,
+					xhrFields: { withCredentials: true }
+				}).done(function(d){
+					$J('#vendeitem'+itemlist[this.lid].id).text(d.goo_value+' gems');
+					itemlist[this.lid].Gems=d.goo_value;
+				}).fail(function(jqxhr){
+					$J('#vendeitem'+itemlist[this.lid].id).text('Cant convert.');
+				}).always(function(){
+					ngi[1]++;
+					if(ngi[0]==ngi[1])
+						$J('.confirm').show();
+				});
 			}
-		}).promise().done(function(){
-			$J('.confirmVenta').show();
 		});
 	}
 
+	function CalculateGems(){
+	}
 
-
-	function ConvertTaricGems(item){
+	function convertIntoGems(item){
 		if(!item)
-			return alert('More than just precious stones, I bring you an ancient power (gems converted).');
+			return Log('Gems converted.');
 		if(!item.Gems)
-			ConvertTaricGems(itemlist.next());
-		//alert(item + ' + precio + '  +getPriceFreeFees(item,precio))
+			convertIntoGems(itemlist.next());
 		$J.ajax( {
 			url: 'http://steamcommunity.com/id/carlos-/ajaxgrindintogoo/',
 			type: 'POST',
@@ -93,87 +195,68 @@ Array.prototype.current = 0;
 			},
 			crossDomain: true,
 			xhrFields: {withCredentials:true }
+		}).done(function(d){
+			$J('#vendeitem'+item.id).css({color:'green'});
 		}).always(function(d){
-			ConvertTaricGems(itemlist.next());
+			convertIntoGems(itemlist.next());
 		});
 	}
-
-	function checkGemPrices(item){
-		if(!item){
-			itemlist.current=0;
-			$J('.confirmTaricGems').show();
-			return;
-		}
-		//alert(item + ' + precio + '  +getPriceFreeFees(item,precio))
-		$J.ajax( {
-			url: 'http://steamcommunity.com/id/carlos-/ajaxgetgoovalue/',
-			type: 'GET',
-			data: {
-				sessionid: g_sessionID,
-				appid: item.appid,
-				contextid: item.contextid,
-				assetid: item.id
-			},
-			crossDomain: true,
-			xhrFields: { withCredentials: true }
-		} ).done( function ( data ) {
-			$J('#vendeitem'+item.id).text(data.goo_value+' gems');
-			itemlist[itemlist.current].Gems=data.goo_value;
-			checkGemPrices(itemlist.next());
-		} ).fail( function( jqxhr ) {
-			$J('#vendeitem'+item.id).text('Cant convert.');
-			checkGemPrices(itemlist.next());
-		} );
-	}
-
-	function TaricGems(){
-		clearLog('Calculating gem prices...');
-		itemlist=[];
-		$J('.itemHolder .item:visible').each(function(){
-			var matches = this.id.split("_");
-			matches[0]=matches[0].replace("item","");
-			if(matches[1]==6){
-				var wea=g_rgAppContextData[matches[0]].rgContexts[matches[1]].inventory.rgInventory[matches[2]];
-				Log('Convert '+wea.market_name+' will result in <span id=vendeitem'+matches[2]+'>...</span>');
-				itemlist.push(wea);
-			}
-		}).promise().done(function(){
-			checkGemPrices(itemlist[0]);
-		});
-	}
-
 
 	$J(document).ready(function(){
 		if($J('#global_actions .user_avatar a').attr('href')!=$J('.profile_small_header_bg .profile_small_header_name a').attr('href'))
 			return;
 		$J('#inventory_logos').css('height','auto');
-		$J('#inventory_applogo').after('<div id=vendeLog></div>\
-		<a class="btn_green_white_innerfade btn_medium_wide confirmVenta" style="display:none"><span>Confirm</span></a>\
-		<a class="btn_green_white_innerfade btn_medium_wide confirmTaricGems" style="display:none"><span>Confirm</span></a>\
-		<div style="display: inline-block; line-height: 69px; vertical-align: top; margin-left: 15px;">\
-		<input type=text value=0 id="precio">\
-		<a class="btn_green_white_innerfade btn_medium_wide venderItems"><span>Sell visible items</span></a>\
-		<a class="btn_green_white_innerfade btn_medium_wide TaricGems"><span>Convert into Gems</span></a>\
+		$J('#inventory_applogo').after('<div id=SteamSeller style="line-height:45px;margin:10px">\
+			<label><input type="radio" name="sellType" value=0>Sell All</label>\
+			<label><input type="radio" name="sellType" value=1 checked>Sell Visibles</label>\
+			<!--<label><input type="radio" name="sellType" value=2>Convert All into Gems</label>-->\
+			<label><input type="radio" name="sellType" value=3>Convert Visibles into Gems</label>\
+			\
+			<div id=SteamSellerLog style="line-height:normal"></div>\
+			<a class="btn_green_white_innerfade btn_medium_wide confirm" style="display:none"><span>Confirm</span></a>\
+			\
+			<div class="sellType s0">\
+				<label title="Only sell items if the price is highest than the minimun price">Minnimun Price:<input type=text value='+v_currencyformat(6)+' id="minimunPrice"> '+GetCurrencyCode(g_rgWalletInfo['wallet_currency'])+'</label><br>\
+				<label title="Only sell items if in last 24hours sold more units than Minimun volume">Minimun volume:<input type=text value=10 id="minimunVol"></label><br>\
+				<a class="btn_green_white_innerfade btn_medium_wide SteamSeller"><span>Sell all your trading cards</span></a>\
+			</div>\
+			<div class="sellType s1">\
+				<label title="Price per item">Price: <input type=text value='+v_currencyformat(0)+' id="priceVisible"> '+GetCurrencyCode(g_rgWalletInfo['wallet_currency'])+'</label><br>\
+				<a class="btn_green_white_innerfade btn_medium_wide SteamSeller"><span>Sell visible items</span></a>\
+			</div>\
+			<div class="sellType s2">\
+				<a class="btn_green_white_innerfade btn_medium_wide SteamSeller"><span>Convert all cards into Gems</span></a>\
+			</div>\
+			<div class="sellType s3">\
+				<a class="btn_green_white_innerfade btn_medium_wide SteamSeller"><span>Convert visible cards into Gems</span></a>\
+			</div>\
 		</div>');
 
-		$J('.venderItems').click(function(){
-			precio=GetPriceValueAsInt($J('#precio').val());
-			if(precio>0)
-				sellItems(precio);
+		$J('.SteamSeller').click(function(){
+			var o=$J('input[name="sellType"]:checked').val();
+			if(o==0)
+				SellAll(GetPriceValueAsInt($J('#minimunPrice').val(),$J('#minimunVol').val()));
+			else if(o==1)
+				SellVisibles(GetPriceValueAsInt($J('#priceVisible').val()))
+			else if(o==2)
+				CalculateGems();
+			else if(o==3)
+				CalculateVisibleGems();
 		});
-		$J('.confirmVenta').click(function(){
-			$J('.confirmVenta').hide();
-			sell(itemlist[0]);
+
+		$J('.confirm').click(function(){
+			var o=$J('input[name="sellType"]:checked').val();
+			if(o==0 || o==1)
+				sellItem(itemlist[0]);
+			if(o==2 || o==3)
+				convertIntoGems(itemlist[0]);
+			$J('.confirm').hide();
 		});
-		$J('.TaricGems').click(function(){
-			TaricGems();
-		});
-		$J('.confirmTaricGems').click(function(){
-			ConvertTaricGems(itemlist[0]);
-			$J('.confirmTaricGems').hide();
-		});
+
+		$J('input[name="sellType"]').change(function(){
+			$J('.sellType,.confirm').hide();
+			clearLog('');
+			$J('.sellType.s'+$J('input[name="sellType"]:checked').val()).show();
+		}).change();
 	});
 })();
-
-
-
