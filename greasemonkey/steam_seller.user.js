@@ -203,7 +203,8 @@ Array.prototype.current = 0;
 	}
 
 	$J(document).ready(function(){
-		if($J('#global_actions .user_avatar a').attr('href')!=$J('.profile_small_header_bg .profile_small_header_name a').attr('href'))
+
+		if($J('#global_actions a.user_avatar').attr('href')!=$J('.profile_small_header_bg .profile_small_header_name a').attr('href')+'/')
 			return;
 		$J('#inventory_logos').css('height','auto');
 		$J('#inventory_applogo').after('<div id=SteamSeller style="line-height:45px;margin:10px">\
