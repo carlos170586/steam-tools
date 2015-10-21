@@ -5,7 +5,7 @@
 // @include        /http[s]?:\/\/[www]?steamcommunity.com\/id/[^\/]+/inventory.+/
 // @include        http://steamcommunity.com/profiles/*/inventory*
 // @updateURL      https://github.com/carlos170586/steam-tools/raw/master/greasemonkey/steam_seller.user.js
-// @version        3
+// @version        4
 // @grant          none
 // ==/UserScript==
 
