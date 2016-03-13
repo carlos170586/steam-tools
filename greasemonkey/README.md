@@ -10,19 +10,17 @@ All scripts require GreaseMonkey (or alternative):
 
 You got GreaseMonkey? click in the links to download:
 
-[steam_market_info.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_market_info.user.js): Display info about your market history
+[steam_market_info.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_market_info.user.js): Display info about your market history ([Image](https://github.com/carlos170586/steam-tools/blob/master/greasemonkey/images/steam_market_info.png))
 
-[steam_buyer.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_buyer.user.js): You can set buy orders in all items without buy order option.
+[steam_check_bans.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_check_bans.user.js): Check bans in your friend/block/rencelty played lists.
 
-[steam_seller.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_seller.user.js): You can sell or convert into gems all the visible items with 2 clicks.
+[steam_seller.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_seller.user.js): You can sell or convert into gems all the visible items with 2 clicks. ([Image](https://github.com/carlos170586/steam-tools/blob/master/greasemonkey/images/steam_seller.png))
 
-[steam_rep.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_rep.user.js): Right click show SteamRep profile.
+[steam_rep.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_rep.user.js): Right click show SteamRep profile. ([Image](https://github.com/carlos170586/steam-tools/blob/master/greasemonkey/images/steam_rep.png))
 
 [steam_links.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_links.user.js): Display useful links in the header menu and steam user profiles.
 
-[steam_prices.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_prices.user.js): Display all prices from all regions
-
-[steam_store.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_store.user.js): skip agecheck, display DRM alerts...
+[steam_prices.user.js](https://raw.githubusercontent.com/carlos170586/steam-tools/master/greasemonkey/steam_prices.user.js): Display all prices from all regions. ([Image](https://github.com/carlos170586/steam-tools/blob/master/greasemonkey/images/steam_prices.png))
 
 
 Others scripts:
