@@ -3,7 +3,7 @@
 // @namespace      https://github.com/carlos170586/steam-tools/
 // @description    Check Bans on friendlist, recently played and blocked users.
 // @include        *//steamcommunity.com/id/*/friends/*
-// @include        *//steamcommunity.com/profile/*/friends/*
+// @include        *//steamcommunity.com/profiles/*/friends/*
 // @version        1
 // @grant          none
 // ==/UserScript==
