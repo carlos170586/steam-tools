@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name        Steam Sales Card Miner
-// @namespace   steamsalescardminer
+// @name        Steam Card Miner
+// @namespace   steamcardminer
 // @include     //store.steampowered.com/explore/
 // @include     //store.steampowered.com/app/*
 // @version     1
