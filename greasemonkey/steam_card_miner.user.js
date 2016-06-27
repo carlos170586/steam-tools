@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        Steam Card Miner
 // @namespace   steamcardminer
-// @include     //store.steampowered.com/explore/
-// @include     //store.steampowered.com/app/*
+// @include     *//store.steampowered.com/explore/
+// @include     *//store.steampowered.com/app/*
 // @version     1
 // @grant       none
 // ==/UserScript==
